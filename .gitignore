@@ -1,3 +1,5 @@
 cmake*
 *.tiff
 *.tif
+.idea
+*.ims_rgb
