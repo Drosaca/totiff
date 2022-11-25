@@ -1,11 +1,12 @@
 cmake_minimum_required(VERSION 3.22)
 project(totiff)
-message(COMPILER ${CMAKE_CXX_COMPILER_ID})
+message(COMPILER: ${CMAKE_CXX_COMPILER_ID})
 set(CMAKE_CXX_STANDARD 20)
 #set(CMAKE_FIND_DEBUG_MODE TRUE)
 
 if (WIN32)
     set(TIFF_ROOT ${CMAKE_SOURCE_DIR}/deps/windows/libtiff/)
+    set(CMAKE_CXX_COMPILER cl)
 endif ()
 
 find_package(TIFF)
