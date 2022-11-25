@@ -39,7 +39,9 @@ jobs:
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: dir
     - name: zip
-      run: choco install zip; zip
+      run: choco install zip
+    - name: zip
+      run: zip totiff-win.zip totiff.exe tiffd.dll
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
