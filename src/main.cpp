@@ -11,11 +11,11 @@
 
 
 void convert(const Config &config) {
-    RawImage imsRgb(config.inputFile);
+    RawImage imsRgb(config.inputFile.string());
     std::vector<uint16_t> pixels = imsRgb.getPixels();
     Tif outputImage(config.width, config.height);
     outputImage.setPixels(pixels);
-    outputImage.write(config.outputFile);
+    outputImage.write(config.outputFile.string());
 
 }
 
