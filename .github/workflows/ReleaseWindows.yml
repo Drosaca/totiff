@@ -37,7 +37,7 @@ jobs:
       working-directory: ${{github.workspace}}/cmake-build-default
       # Execute tests defined by the CMake configuration.
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: dir && totiff.exe
+      run: dir && .\totiff.exe
     - name: zip
       uses: montudor/action-zip@v1.0.0
       with:
