@@ -18,6 +18,9 @@ if (WIN32)
     if (MSVC)
         target_compile_options(totiff PUBLIC /MT)
     endif ()
+    if (GNU)
+        target_compile_options(totiff PUBLIC -static-libstdc++)
+    endif ()
     if (EXISTS ${CMAKE_CURRENT_BINARY_DIR}/Debug)
         add_custom_command(
                 TARGET ${PROJECT_NAME} POST_BUILD
