@@ -6,7 +6,6 @@ set(CMAKE_CXX_STANDARD 20)
 
 if (WIN32)
     set(TIFF_ROOT ${CMAKE_SOURCE_DIR}/deps/windows/libtiff/)
-    set(CMAKE_CXX_COMPILER cl)
 endif ()
 
 find_package(TIFF)
@@ -16,7 +15,9 @@ target_link_libraries(totiff ${TIFF_LIBRARIES})
 
 if (WIN32)
     message("LIBRARY:" ${TIFF_LIBRARIES} ${TIFF_INCLUDE_DIRS})
-
+    if (MSVC)
+        target_compile_options(totiff PUBLIC /MT)
+    endif ()
     if (EXISTS ${CMAKE_CURRENT_BINARY_DIR}/Debug)
         add_custom_command(
                 TARGET ${PROJECT_NAME} POST_BUILD
