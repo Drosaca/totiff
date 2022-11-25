@@ -41,7 +41,7 @@ jobs:
     - name: zip
       run: choco install zip
     - name: zip
-      run: zip -D totiff-win.zip ${{github.workspace}}/cmake-build-default/totiff.exe ${{github.workspace}}/cmake-build-default/tiffd.dll
+      run: zip -j totiff-win.zip ${{github.workspace}}/cmake-build-default/totiff.exe ${{github.workspace}}/cmake-build-default/tiffd.dll
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
