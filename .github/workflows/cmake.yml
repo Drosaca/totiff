@@ -34,7 +34,7 @@ jobs:
 
     - name: Build
       # Build your program with the given configuration
-      run: cmake --preset default --build
+      run: cmake --build --preset default
 
     - name: Test
       working-directory: ${{github.workspace}}/cmake-build-default
