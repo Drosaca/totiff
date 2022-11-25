@@ -1,22 +1,20 @@
 cmake_minimum_required(VERSION 3.22)
 project(totiff)
+message(COMPILER ${CMAKE_CXX_COMPILER_ID})
 set(CMAKE_CXX_STANDARD 20)
+#set(CMAKE_FIND_DEBUG_MODE TRUE)
 
-if (MSVC)
+if (WIN32)
     set(TIFF_ROOT ${CMAKE_SOURCE_DIR}/deps/windows/libtiff/)
 endif ()
 
 find_package(TIFF)
 include_directories(classes ${TIFF_INCLUDE_DIRS})
-
 add_executable(totiff src/main.cpp classes/RawImage.cpp classes/RawImage.h classes/Tif.cpp classes/Tif.h classes/Config.cpp classes/Config.h classes/Error.cpp classes/Error.h)
-
 target_link_libraries(totiff ${TIFF_LIBRARIES})
 
-if (MSVC)
-    message(MSVC COMPILER)
+if (WIN32)
     message("LIBRARY:" ${TIFF_LIBRARIES} ${TIFF_INCLUDE_DIRS})
-    target_compile_options(totiff PUBLIC /MT)
 
     if (EXISTS ${CMAKE_CURRENT_BINARY_DIR}/Debug)
         add_custom_command(
@@ -37,7 +35,6 @@ if (MSVC)
                 ${CMAKE_SOURCE_DIR}/deps/windows/libtiff/lib/tiffd.dll
                 ${CMAKE_CURRENT_BINARY_DIR})
     endif ()
-
     install(FILES deps/windows/libtiff/lib/tiffd.dll DESTINATION ${CMAKE_INSTALL_PREFIX})
     install(TARGETS totiff DESTINATION ${CMAKE_INSTALL_PREFIX})
 endif ()
