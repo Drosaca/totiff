@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.22)
-set(CMAKE_C_COMPILER gcc)
-set(CMAKE_CXX_COMPILER g++)
+#set(CMAKE_C_COMPILER gcc)
+#set(CMAKE_CXX_COMPILER g++)
 project(totiff)
 set(CMAKE_CXX_STANDARD 20)
 message("COMPILER: ${CMAKE_CXX_COMPILER_ID}")
@@ -10,8 +10,13 @@ message("COMPILER: ${CMAKE_CXX_COMPILER_ID}")
 if (WIN32)
     set(TIFF_ROOT ${CMAKE_SOURCE_DIR}/deps/windows/libtiff/)
 endif ()
-
 find_package(TIFF)
+if (WIN32)
+    set(TIFF_LIBRARIES ${CMAKE_SOURCE_DIR}/deps/windows/libtiff/lib/tiffd.lib)
+    set(TIFF_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/deps/windows/libtiff/include/)
+endif ()
+
+
 include_directories(classes ${TIFF_INCLUDE_DIRS})
 add_executable(totiff src/main.cpp classes/RawImage.cpp classes/RawImage.h classes/Tif.cpp classes/Tif.h classes/Config.cpp classes/Config.h classes/Error.cpp classes/Error.h)
 target_link_libraries(totiff ${TIFF_LIBRARIES} )
