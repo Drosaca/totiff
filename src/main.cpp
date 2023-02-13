@@ -10,24 +10,41 @@
 #include "Error.h"
 
 
-void convert(const Config &config) {
-    RawImage imsRgb(config.inputFile.string());
-    std::vector<uint16_t> pixels = imsRgb.getPixels();
-    Tif outputImage(config.width, config.height);
-    outputImage.setPixels(pixels);
-    outputImage.write(config.outputFile.string());
-
+std::string getOutputFile(const Config &config, const std::string &inputFile) {
+    std::filesystem::path inFile(inputFile);
+    std::filesystem::path outputFile(inFile.stem().string());
+    outputFile += ".tif";
+    outputFile = inFile.parent_path() / outputFile;
+    return outputFile.string();
 }
 
-int main(int argc, char** argv) {
-    if(argc != 4) {
-        std::cout << "usage totiff path/to/img.ims_rgb width height" << std::endl;
+void convert(const Config &config, const std::string &inputFile) {
+    RawImage imsRgb(inputFile, config.width, config.height);
+    if(config.color == ImageColorType::RGB) {
+        imsRgb = imsRgb.toRGB();
+    }
+    std::vector<uint16_t> pixels = imsRgb.getPixels();
+    Tif outputImage;
+    outputImage.fromRaw(imsRgb);
+    std::string outputPath = getOutputFile(config, inputFile);
+    outputImage.write(outputPath);
+    std::cout << outputPath << " written" << std::endl;
+}
+
+
+int main(int argc, char **argv) {
+    if (argc < 4) {
+        std::cout << "usage totiff path/to/img.ims_rgb width height [--rgb]" << std::endl;
         exit(0);
     }
+    bool rgb = argc > 4 && std::string(argv[4]) == "--rgb";
     try {
-        Config config(argv[1], std::stoi(argv[2]), std::stoi(argv[3]));
-        convert(config);
-    } catch (Error &e){
+        Config config(argv[1], std::stoi(argv[2]), std::stoi(argv[3]),
+                      rgb ? ImageColorType::RGB : ImageColorType::MONO);
+        for (const auto &file: config.inputFiles) {
+            convert(config, file.string());
+        }
+    } catch (Error &e) {
         std::cerr << e.what() << std::endl;
     }
 }
