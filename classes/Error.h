@@ -15,7 +15,7 @@ private:
 
 public:
    // explicit Error(char * msg) : message(msg) {}
-    const char *what () {
+    const char *what ()  const noexcept override{
         return const_cast<char *>(message.c_str());
     }
     Error() = delete;

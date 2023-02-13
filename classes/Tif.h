@@ -8,13 +8,19 @@
 
 #include <string>
 #include <vector>
+#include "RawImage.h"
 
 class Tif {
 public:
-    Tif(unsigned int width, unsigned int height): _width(width), _height(height){};
+    Tif();
+    Tif(unsigned int width, unsigned int height): _width(width), _height(height){
+
+    };
+    void fromRaw(RawImage raw);
     void write(const std::string &path);
-    void setPixels(std::vector<uint16_t>&pixels);
+    void setPixels(std::vector<uint16_t> pixels);
 private:
+    ImageColorType colorType = ImageColorType::UNKNOWN;
     unsigned int _height;
     unsigned int _width;
     int _pixelBits = 16;

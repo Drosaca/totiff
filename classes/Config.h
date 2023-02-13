@@ -7,13 +7,15 @@
 
 #include <filesystem>
 #include <vector>
+#include "RawImage.h"
 
 class Config {
 public:
-    Config(const std::string &imagePath, int imageWidth, int height);
-    std::filesystem::path inputFile;
-    std::filesystem::path outputFile;
+    Config(const std::string &imagePath, int imageWidth, int height, ImageColorType color = ImageColorType::MONO);
+    std::vector<std::filesystem::path> inputFiles;
+    std::filesystem::path outputDir = "";
     unsigned int height;
+    ImageColorType color;
     unsigned int width;
 };
 

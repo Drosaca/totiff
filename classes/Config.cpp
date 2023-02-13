@@ -4,16 +4,15 @@
 
 #include "Error.h"
 #include "Config.h"
+#include "pathSolver.h"
 
-Config::Config(const std::string &imagePath, int imageWidth, int imageHeight) {
+Config::Config(const std::string &imagePath, int imageWidth, int imageHeight, ImageColorType color) {
     std::string outputPath;
     this->height = imageHeight;
     this->width = imageWidth;
-    this->inputFile.assign(imagePath);
-    if (!exists(this->inputFile)) {
-        throw Error("Input File not found");
-    }
-    outputPath = this->inputFile.stem().string();
-    this->outputFile.assign(outputPath + ".tif");
+    this->inputFiles = pathSolver::resolve(imagePath);
+    this->color = color;
+    //outputPath = this->inputFile.stem().string();
+    //this->outputFile.assign(outputPath + ".tif");
 }
 
