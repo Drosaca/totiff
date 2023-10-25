@@ -18,8 +18,24 @@ endif ()
 
 
 include_directories(classes include ${TIFF_INCLUDE_DIRS})
-file(GLOB SOURCES ${PROJECT_SOURCE_DIR}/classes/*.cpp ${PROJECT_SOURCE_DIR}/src/*.cpp  )
-add_executable(totiff ${SOURCES})
+file(GLOB SOURCES ${PROJECT_SOURCE_DIR}/classes/*.cpp ${PROJECT_SOURCE_DIR}/src/functions.cpp  )
+
+if (TEST)
+    include(FetchContent)
+    FetchContent_Declare(
+            googletest
+            URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
+    )
+    set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+    FetchContent_MakeAvailable(googletest)
+    #set(CMAKE_FIND_DEBUG_MODE TRUE)
+    FILE(GLOB TEST_SOURCES ${PROJECT_SOURCE_DIR}/src/test/*.cpp)
+    add_executable(totiff ${TEST_SOURCES} ${SOURCES})
+    enable_testing()
+    target_link_libraries(totiff gtest gtest_main)
+else ()
+    add_executable(totiff ${SOURCES} ${PROJECT_SOURCE_DIR}/src/main.cpp)
+endif()
 target_link_libraries(totiff ${TIFF_LIBRARIES} )
 add_compile_definitions(totiff VERSION=${CMAKE_PROJECT_VERSION})
 
