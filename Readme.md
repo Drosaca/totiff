@@ -2,7 +2,7 @@
 
 ---
 
- Tool to convert images from __img_rgb__ to tiff format
+ Tool to convert images from __img_rgb__  from OPS-SAT mission to lossless tiff format
 
 ## Usage
 
